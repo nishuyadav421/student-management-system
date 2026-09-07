@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student | SMS Admin</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #eef2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #ffffff; width: 440px; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        h3 { margin-top: 0; color: #2e384d; margin-bottom: 20px; text-align: center; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #495057; margin-bottom: 6px; }
+        input { width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; outline: none; }
+        input:focus { border-color: #5a73e8; }
+        .btn-submit { width: 100%; padding: 11px; background-color: #5a73e8; border: none; color: #ffffff; font-size: 15px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+        .btn-submit:hover { background-color: #4a60c7; }
+        .btn-cancel { display: block; text-align: center; margin-top: 12px; color: #78909c; text-decoration: none; font-size: 13px; }
+        .error-msg { background: #f8d7da; color: #842029; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Add New Student</h3>
+
+    <div th:if="${error}" class="error-msg" th:text="${error}"></div>
+
+    <form th:action="@{/admin/students/add}" th:object="${student}" method="post">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" th:field="*{fullName}" placeholder="Enter full name" required />
+        </div>
+
+        <div class="form-group">
+            <label>Email / Username</label>
+            <input type="email" th:field="*{username}" placeholder="student@sms.com" required />
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" th:field="*{password}" placeholder="Create password" required />
+        </div>
+
+        <button type="submit" class="btn-submit">Save Student</button>
+        <a href="/admin/dashboard" class="btn-cancel">Back to Dashboard</a>
+    </form>
+</div>
+
+</body>
+</html>

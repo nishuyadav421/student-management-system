@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details | SMS Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #eef2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .card { background: #ffffff; width: 520px; border-radius: 12px; padding: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px; }
+        .card-header h3 { margin: 0; color: #2e384d; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f8; font-size: 14px; }
+        .label { color: #8795a1; font-weight: 600; text-transform: uppercase; font-size: 12px; }
+        .value { color: #2e384d; font-weight: 600; }
+        .badge { background: #e0f2fe; color: #0284c7; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .btn-back { display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; text-decoration: none; color: #5a73e8; font-size: 14px; font-weight: 600; }
+        .btn-back:hover { text-decoration: underline; }
+        
+        /* Course Tag Badges */
+        .course-badge { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-left: 4px; display: inline-block; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="card" th:if="${student != null}">
+    <div class="card-header">
+        <h3><i class="fa-solid fa-user-graduate"></i> Student Profile</h3>
+        <span class="badge" th:text="${student.role}">ROLE_STUDENT</span>
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Student ID</span>
+        <span class="value" th:text="'#' + ${student.id}">#3</span>
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Full Name</span>
+        <span class="value" th:text="${student.fullName}">Nishu Kumar Yadav</span>
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Email Address</span>
+        <span class="value" th:text="${student.username}">student@sms.com</span>
+    </div>
+
+    <!-- Dynamic Courses Count -->
+    <div class="detail-row">
+        <span class="label">Enrolled Courses</span>
+        <span class="value" th:text="${coursesCount != null ? coursesCount + ' Courses' : '0 Courses'}">1 Courses</span>
+    </div>
+
+    <!-- Dynamic Course Name(s) list -->
+    <div class="detail-row" th:if="${enrollments != null and !enrollments.isEmpty()}">
+        <span class="label">Course Name</span>
+        <div style="text-align: right;">
+            <span th:each="en : ${enrollments}" class="course-badge" th:text="${en.courseName}">Full Stack Java</span>
+        </div>
+    </div>
+
+    <!-- Dynamic Total Fee -->
+    <div class="detail-row">
+        <span class="label">Total Paid Fee</span>
+        <span class="value" style="color: #10b981;" th:text="'₹ ' + ${#numbers.formatDecimal(totalFee != null ? totalFee : 0, 1, 2)}">₹ 5,000.00</span>
+    </div>
+
+    <a href="/admin/dashboard" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+
+</body>
+</html>

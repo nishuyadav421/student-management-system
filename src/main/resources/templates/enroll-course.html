@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enroll Course | SMS Admin</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #eef2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #ffffff; width: 460px; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        h3 { margin-top: 0; color: #2e384d; margin-bottom: 20px; text-align: center; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #495057; margin-bottom: 6px; }
+        select, input { width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; outline: none; }
+        select:focus, input:focus { border-color: #5a73e8; }
+        .btn-submit { width: 100%; padding: 11px; background-color: #5a73e8; border: none; color: #ffffff; font-size: 15px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+        .btn-submit:hover { background-color: #4a60c7; }
+        .btn-cancel { display: block; text-align: center; margin-top: 12px; color: #78909c; text-decoration: none; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Enroll Student to Course</h3>
+
+    <form th:action="@{/admin/enroll}" method="post">
+        <!-- Field 1: Select Student -->
+        <div class="form-group">
+            <label>Select Student</label>
+            <select name="studentId" required>
+                <option value="">-- Choose Student --</option>
+                <option th:each="st : ${students}" th:value="${st.id}" th:text="${st.fullName + ' (' + st.username + ')'}"></option>
+            </select>
+        </div>
+
+        <!-- Field 2: Select Course (Single Dynamic Dropdown) -->
+        <div class="form-group">
+            <label>Select Course</label>
+            <select name="courseName" required>
+                <option value="">-- Choose Course --</option>
+                <option th:each="course : ${courses}" 
+                        th:value="${course.courseName}" 
+                        th:text="${course.courseName + ' (₹' + course.standardFee + ')'}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Field 3: Course Fee Input Field -->
+        <div class="form-group">
+            <label>Course Fee (₹)</label>
+            <input type="number" name="fee" value="5000" step="100" placeholder="Enter fee amount" required />
+        </div>
+
+        <button type="submit" class="btn-submit">Assign Course</button>
+        <a href="/admin/dashboard" class="btn-cancel">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>
