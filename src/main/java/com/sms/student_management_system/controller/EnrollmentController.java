@@ -29,10 +29,16 @@ public class EnrollmentController {
     }
 
     // 1. Enroll Form Dikhane ke liye
+ 
     @GetMapping("/enroll")
     public String showEnrollForm(Model model) {
-        model.addAttribute("students", userRepository.findByRole("ROLE_STUDENT"));
-        model.addAttribute("courses", courseRepository.findAll()); // Ab error solve ho jayega
+        // Agar role 'STUDENT' ya 'ROLE_STUDENT' kuch bhi ho:
+        List<User> students = userRepository.findAll().stream()
+                .filter(u -> "STUDENT".equalsIgnoreCase(u.getRole()) || "ROLE_STUDENT".equalsIgnoreCase(u.getRole()))
+                .toList();
+
+        model.addAttribute("students", students);
+        model.addAttribute("courses", courseRepository.findAll());
         return "enroll-course";
     }
 
