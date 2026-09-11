@@ -32,9 +32,9 @@ public class EnrollmentController {
  
     @GetMapping("/enroll")
     public String showEnrollForm(Model model) {
-        // Agar role 'STUDENT' ya 'ROLE_STUDENT' kuch bhi ho:
+        
         List<User> students = userRepository.findAll().stream()
-                .filter(u -> "STUDENT".equalsIgnoreCase(u.getRole()) || "ROLE_STUDENT".equalsIgnoreCase(u.getRole()))
+                .filter(u -> u.getRole() == null || !u.getRole().toUpperCase().contains("ADMIN"))
                 .toList();
 
         model.addAttribute("students", students);
