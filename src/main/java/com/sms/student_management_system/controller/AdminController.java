@@ -139,4 +139,20 @@ public class AdminController {
 
         return "redirect:/admin/dashboard?updated";
     }
+    
+    
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model) {
+        // Baaki stats:
+        // model.addAttribute("totalStudents", ...);
+        // model.addAttribute("totalCourses", ...);
+
+        // Top performing course dynamic nikalne ka logic:
+        List<String> topCourses = enrollmentRepository.findTopPerformingCourses();
+        String topCourse = topCourses.isEmpty() ? "No Enrollments Yet" : topCourses.get(0);
+
+        model.addAttribute("topCourse", topCourse);
+
+        return "dashboard"; // Aapka dashboard template name
+    }
 }
