@@ -61,14 +61,19 @@ public class AdminController {
                 fee
             ));
         }
-
         model.addAttribute("students", studentDTOs);
         model.addAttribute("totalStudents", students.size());
         
         // Dynamic Course count
         model.addAttribute("totalCourses", courseRepository.count());
-        model.addAttribute("topCourse", "Full Stack Java");
         model.addAttribute("monthlyEnrolled", enrollmentRepository.count());
+
+        // Dynamic Top Course logic
+        List<String> topCourses = enrollmentRepository.findTopPerformingCourses();
+        String topCourse = (topCourses != null && !topCourses.isEmpty()) 
+                ? topCourses.get(0) 
+                : "No Enrollments Yet";
+        model.addAttribute("topCourse", topCourse);
 
         return "admin-dashboard";
     }
@@ -141,18 +146,5 @@ public class AdminController {
     }
     
     
-    @GetMapping("/dashboard")
-    public String showDashboard(Model model) {
-        // Baaki stats:
-        // model.addAttribute("totalStudents", ...);
-        // model.addAttribute("totalCourses", ...);
-
-        // Top performing course dynamic nikalne ka logic:
-        List<String> topCourses = enrollmentRepository.findTopPerformingCourses();
-        String topCourse = topCourses.isEmpty() ? "No Enrollments Yet" : topCourses.get(0);
-
-        model.addAttribute("topCourse", topCourse);
-
-        return "dashboard"; // Aapka dashboard template name
-    }
+    
 }
